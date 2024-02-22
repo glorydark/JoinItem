@@ -1,0 +1,6 @@
+main: glorydark.joinitem.JoinItemMain
+name: JoinItem
+version: "1.0.5"
+api: 1.0.0
+author: Glorydark
+description: JoinItem
