@@ -86,7 +86,7 @@ public class JoinItemMain extends PluginBase implements Listener {
         if ((triggerType == 0) || (triggerType == 1 && b) || (triggerType == 2 && c)) {
             Item check = event.getItem();
             AtomicReference<JoinItem> item = new AtomicReference<>();
-            items.stream().filter(joinItem -> joinItem.checkItem(check)).sorted().findFirst().ifPresent(item::set);
+            items.stream().filter(joinItem -> joinItem.checkItem(check)).findFirst().ifPresent(item::set);
             if (item.get() != null) {
                 item.get().execute(event.getPlayer());
             }
@@ -97,7 +97,7 @@ public class JoinItemMain extends PluginBase implements Listener {
     public void BlockPlaceEvent(BlockPlaceEvent event) {
         Item check = event.getItem();
         AtomicReference<JoinItem> item = new AtomicReference<>();
-        items.stream().filter(joinItem -> joinItem.checkItem(check)).sorted().findFirst().ifPresent(item::set);
+        items.stream().filter(joinItem -> joinItem.checkItem(check)).findFirst().ifPresent(item::set);
         if (item.get() != null) {
             item.get().execute(event.getPlayer());
             event.setCancelled(true);
@@ -112,7 +112,7 @@ public class JoinItemMain extends PluginBase implements Listener {
         }
         Item check = event.getItem();
         AtomicReference<JoinItem> item = new AtomicReference<>();
-        items.stream().filter(joinItem -> joinItem.checkItem(check)).sorted().findFirst().ifPresent(item::set);
+        items.stream().filter(joinItem -> joinItem.checkItem(check)).findFirst().ifPresent(item::set);
         if (item.get() != null) {
             item.get().execute(player);
             event.setCancelled(true);
@@ -123,7 +123,7 @@ public class JoinItemMain extends PluginBase implements Listener {
     public void PlayerDropItemEvent(PlayerDropItemEvent event) {
         Item check = event.getItem();
         AtomicReference<JoinItem> item = new AtomicReference<>();
-        items.stream().filter(joinItem -> joinItem.checkItem(check)).sorted().findFirst().ifPresent(item::set);
+        items.stream().filter(joinItem -> joinItem.checkItem(check)).findFirst().ifPresent(item::set);
         if (item.get() != null) {
             event.setCancelled(true);
         }
@@ -183,6 +183,9 @@ public class JoinItemMain extends PluginBase implements Listener {
                     }
                     if (commandSender.isPlayer() && commandSender.isOp()) {
                         Player player = commandSender.asPlayer();
+                        if (player == null) {
+                            return false;
+                        }
                         Item item = player.getInventory().getItemInHand();
                         String string = Inventory.bytesToHexString(item.getCompoundTag());
                         if (string.equals("null")) {
